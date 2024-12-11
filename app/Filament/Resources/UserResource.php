@@ -12,6 +12,7 @@ use Filament\Resources\Resource;
 use Filament\Actions\CreateAction;
 use Filament\Forms\Components\Card;
 use Illuminate\Support\Facades\Hash;
+use Filament\Forms\Components\Section;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
@@ -35,17 +36,21 @@ class UserResource extends Resource
 
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                ->required()
-                ->maxLength(255),
-                Forms\Components\TextInput::make('email')
-                ->required()
-                ->email(),
-                Forms\Components\TextInput::make('password')
-                ->password()
-                ->dehydrateStateUsing(fn ($state) => Hash::make($state))
-                ->dehydrated(fn ($state) => filled($state))
-                ->required(fn (string $context): bool => $context === 'create'),
+                Section::make()
+                ->schema([
+                    Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
+                    Forms\Components\TextInput::make('email')
+                    ->required()
+                    ->email(),
+                    Forms\Components\TextInput::make('password')
+                    ->password()
+                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                    ->dehydrated(fn ($state) => filled($state))
+                    ->required(fn (string $context): bool => $context === 'create'),
+                ])
+                
 
             ]);
     }
@@ -54,7 +59,7 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-            TextColumn::make('#')->rowIndex(),
+            TextColumn::make('index')->label('#')->rowIndex()->sortable(),
             TextColumn::make('name')
             ->searchable(),
             TextColumn::make('email')

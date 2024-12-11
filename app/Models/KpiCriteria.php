@@ -2,14 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Position;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class KpiCriteria extends Model
 {
     use HasFactory;
 
-    // protected $table = "kpi_cri";
+    protected $fillable = ['position_id', 'criteria_name', 'weight'];
 
-    protected $fillable = ['position', 'criteria_name', 'weight'];
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
+    }
 }

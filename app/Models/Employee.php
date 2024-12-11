@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Bonus;
+use App\Models\Payroll;
+use App\Models\KpiScore;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Employee extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'position', 'email', 'hire_date'];
+    protected $fillable = ['name', 'position_id', 'email', 'hire_date'];
 
     public function kpiScores()
     {
@@ -24,5 +27,10 @@ class Employee extends Model
     public function bonuses()
     {
         return $this->hasMany(Bonus::class);
+    }
+
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
     }
 }

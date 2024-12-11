@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('kpi_criterias', function (Blueprint $table) {
             $table->id();
-            $table->string('position');
+            $table->foreignId('position_id')->constrained('positions')->onDelete('cascade');
             $table->string('criteria_name');
             $table->decimal('weight', 5, 2);
             $table->timestamps();
